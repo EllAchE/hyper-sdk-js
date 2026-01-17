@@ -5,7 +5,6 @@ import { CompressionType, generateSignature, Session } from "../index";
 
 // Compression utilities
 const gzip = promisify(zlib.gzip);
-const brotliDecompress = promisify(zlib.brotliDecompress);
 
 /**
  * Generic API response interface

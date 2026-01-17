@@ -2,11 +2,11 @@ import { Agent, ProxyAgent, request } from 'undici';
 import { promisify } from "util";
 import * as zlib from "zlib";
 import { CompressionType, generateSignature, Session } from "../index";
-
+import pako from 'pako';
 
 // Compression utilities
 const gzip = promisify(zlib.gzip);
-const gunzip = promisify(zlib.gunzip);
+// const gunzip = promisify(zlib.gunzip);
 const brotliDecompress = promisify(zlib.brotliDecompress);
 
 /**
@@ -43,7 +43,7 @@ async function compressPayload(payload: Buffer, compression: CompressionType): P
 async function decompressResponse(responseBuffer: Buffer, contentEncoding?: string): Promise<Buffer> {
     switch (contentEncoding) {
         case 'gzip':
-            return await gunzip(responseBuffer);
+            return Buffer.from(pako.ungzip(responseBuffer))
         case 'br':
             return await brotliDecompress(responseBuffer);
         default:
@@ -155,6 +155,7 @@ export async function sendRequest<TInput = any, TResponse extends IBaseApiRespon
         } catch (err) {
             throw new InvalidApiResponseError(`Invalid JSON response: ${err}`);
         }
+
 
         // Validate response
         if (result.error) {

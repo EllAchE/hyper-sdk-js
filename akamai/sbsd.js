@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SbsdInput = void 0;
-exports.generateSbsdPayload = generateSbsdPayload;
+exports.generateSbsdPayload = exports.SbsdInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * Sbsd input.
@@ -51,3 +50,4 @@ function generateSbsdPayload(session, input) {
         return (0, api_client_1.sendPayloadRequest)(session, "https://akm.hypersolutions.co/sbsd", input);
     });
 }
+exports.generateSbsdPayload = generateSbsdPayload;

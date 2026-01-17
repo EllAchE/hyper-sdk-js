@@ -15,23 +15,13 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -42,18 +32,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InvalidApiResponseError = void 0;
-exports.sendRequest = sendRequest;
-exports.sendPayloadRequest = sendPayloadRequest;
-exports.sendPayloadWithHeadersRequest = sendPayloadWithHeadersRequest;
-exports.sendKasadaPayloadRequest = sendKasadaPayloadRequest;
+exports.sendKasadaPayloadRequest = exports.sendPayloadWithHeadersRequest = exports.sendPayloadRequest = exports.sendRequest = exports.InvalidApiResponseError = void 0;
 const undici_1 = require("undici");
 const util_1 = require("util");
 const zlib = __importStar(require("zlib"));
 const index_1 = require("../index");
 // Compression utilities
 const gzip = (0, util_1.promisify)(zlib.gzip);
-const gunzip = (0, util_1.promisify)(zlib.gunzip);
 const brotliDecompress = (0, util_1.promisify)(zlib.brotliDecompress);
 /**
  * An invalid API response error
@@ -74,21 +59,6 @@ function compressPayload(payload, compression) {
                 return yield gzip(payload);
             default:
                 return payload;
-        }
-    });
-}
-/**
- * Decompresses response based on content-encoding header
- */
-function decompressResponse(responseBuffer, contentEncoding) {
-    return __awaiter(this, void 0, void 0, function* () {
-        switch (contentEncoding) {
-            case 'gzip':
-                return yield gunzip(responseBuffer);
-            case 'br':
-                return yield brotliDecompress(responseBuffer);
-            default:
-                return responseBuffer;
         }
     });
 }
@@ -145,7 +115,8 @@ function sendRequest(session, url, input, validateResponse) {
                 headers,
                 body: requestBody,
                 headersTimeout: session.timeout,
-                bodyTimeout: session.timeout * 2
+                bodyTimeout: session.timeout * 2,
+                decompress: true,
             };
             // Add proxy support if configured
             if (session.proxy) {
@@ -167,18 +138,10 @@ function sendRequest(session, url, input, validateResponse) {
             }
             // Make HTTP request using undici
             const response = yield (0, undici_1.request)(url, requestOptions);
-            // Read response body
-            let responseBody = Buffer.from(yield response.body.arrayBuffer());
-            // Decompress response if needed
-            const contentEncoding = response.headers['content-encoding'];
-            if (contentEncoding) {
-                //@ts-ignore - Type mismatch between Buffer and ArrayBuffer
-                responseBody = yield decompressResponse(responseBody, contentEncoding);
-            }
             // Parse JSON response
             let result;
             try {
-                result = JSON.parse(responseBody.toString('utf8'));
+                result = JSON.parse(yield response.body.text());
             }
             catch (err) {
                 throw new InvalidApiResponseError(`Invalid JSON response: ${err}`);
@@ -205,6 +168,7 @@ function sendRequest(session, url, input, validateResponse) {
         }
     });
 }
+exports.sendRequest = sendRequest;
 /**
  * Helper function for simple payload-only requests (Akamai, Incapsula)
  */
@@ -218,6 +182,7 @@ function sendPayloadRequest(session, url, input) {
         return response.payload;
     });
 }
+exports.sendPayloadRequest = sendPayloadRequest;
 /**
  * Helper function for payload + headers requests (DataDome)
  */
@@ -234,6 +199,7 @@ function sendPayloadWithHeadersRequest(session, url, input) {
         };
     });
 }
+exports.sendPayloadWithHeadersRequest = sendPayloadWithHeadersRequest;
 /**
  * Helper function for Kasada requests
  */
@@ -253,3 +219,4 @@ function sendKasadaPayloadRequest(session, url, input) {
         };
     });
 }
+exports.sendKasadaPayloadRequest = sendKasadaPayloadRequest;

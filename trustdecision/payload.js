@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PayloadInput = void 0;
-exports.generateTrustDecisionPayload = generateTrustDecisionPayload;
+exports.generateTrustDecisionPayload = exports.PayloadInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * TrustDecision payload generation input.
@@ -63,3 +62,4 @@ function generateTrustDecisionPayload(session, input) {
         };
     });
 }
+exports.generateTrustDecisionPayload = generateTrustDecisionPayload;

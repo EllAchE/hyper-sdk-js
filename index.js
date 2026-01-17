@@ -14,8 +14,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Session = exports.NoJwtKeyError = exports.InvalidApiKeyError = exports.CompressionType = void 0;
-exports.generateSignature = generateSignature;
+exports.Session = exports.generateSignature = exports.NoJwtKeyError = exports.InvalidApiKeyError = exports.CompressionType = void 0;
 const jsonwebtoken_1 = require("jsonwebtoken");
 /**
  * Compression types supported by the SDK
@@ -59,6 +58,7 @@ function generateSignature(apiKey, jwtKey) {
         algorithm: "HS256"
     });
 }
+exports.generateSignature = generateSignature;
 /**
  * A session that can be used to interact with the Hyper Solutions API services.
  */

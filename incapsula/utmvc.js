@@ -12,12 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UtmvcInput = void 0;
-exports.parseUtmvcScriptPath = parseUtmvcScriptPath;
-exports.generateUtmvcScriptPath = generateUtmvcScriptPath;
-exports.isSessionCookie = isSessionCookie;
-exports.getSessionIds = getSessionIds;
-exports.generateUtmvcCookie = generateUtmvcCookie;
+exports.generateUtmvcCookie = exports.UtmvcInput = exports.getSessionIds = exports.isSessionCookie = exports.generateUtmvcScriptPath = exports.parseUtmvcScriptPath = void 0;
 const assert_1 = __importDefault(require("assert"));
 const api_client_1 = require("../shared/api-client");
 const scriptRegex = new RegExp(`src="(/_Incapsula_Resource\?[^"]*)"`);
@@ -32,12 +27,14 @@ function parseUtmvcScriptPath(input) {
     }
     return result[1];
 }
+exports.parseUtmvcScriptPath = parseUtmvcScriptPath;
 /**
  * Generates a script path to post the generated `___utmvc` cookie to.
  */
 function generateUtmvcScriptPath() {
     return `/_Incapsula_Resource?SWKMTFSR=1&e=${Math.random()}`;
 }
+exports.generateUtmvcScriptPath = generateUtmvcScriptPath;
 /**
  * Checks if the given HTTP cookie name is a session cookie.
  * This can be used to extract session cookies for use with {@link generateUtmvcCookie}.
@@ -49,6 +46,7 @@ function generateUtmvcScriptPath() {
 function isSessionCookie(name) {
     return name.startsWith("incap_ses_");
 }
+exports.isSessionCookie = isSessionCookie;
 /**
  * Extracts session cookie values from the given cookies.
  * @param cookies Cookies to extract session cookies from
@@ -59,6 +57,7 @@ function getSessionIds(cookies) {
         .filter(cookie => isSessionCookie(cookie.name))
         .map(cookie => cookie.value);
 }
+exports.getSessionIds = getSessionIds;
 /**
  * Utmvc API input.
  */
@@ -100,3 +99,4 @@ function generateUtmvcCookie(session, input) {
         };
     });
 }
+exports.generateUtmvcCookie = generateUtmvcCookie;

@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SignatureInput = void 0;
-exports.generateTrustDecisionSignature = generateTrustDecisionSignature;
+exports.generateTrustDecisionSignature = exports.SignatureInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * TrustDecision session signature generation input.
@@ -40,3 +39,4 @@ function generateTrustDecisionSignature(session, input) {
         return (0, api_client_1.sendPayloadRequest)(session, "https://trustdecision.hypersolutions.co/sign", input);
     });
 }
+exports.generateTrustDecisionSignature = generateTrustDecisionSignature;

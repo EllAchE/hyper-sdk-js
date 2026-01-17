@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TagsInput = void 0;
-exports.generateTagsPayload = generateTagsPayload;
+exports.generateTagsPayload = exports.TagsInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * Tags API input.
@@ -40,3 +39,4 @@ exports.TagsInput = TagsInput;
 function generateTagsPayload(session, input) {
     return (0, api_client_1.sendPayloadRequest)(session, "https://datadome.hypersolutions.co/tags", input);
 }
+exports.generateTagsPayload = generateTagsPayload;

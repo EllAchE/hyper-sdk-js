@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Reese84Input = void 0;
-exports.generateReese84Sensor = generateReese84Sensor;
+exports.generateReese84Sensor = exports.Reese84Input = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * Reese84 API input.
@@ -48,3 +47,4 @@ function generateReese84Sensor(session, input) {
         return (0, api_client_1.sendPayloadRequest)(session, "https://incapsula.hypersolutions.co/reese84", input);
     });
 }
+exports.generateReese84Sensor = generateReese84Sensor;

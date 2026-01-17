@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseObject = parseObject;
+exports.parseObject = void 0;
 /**
  * Parses `var dd = {...};` as a JSON object.
  *
@@ -16,3 +16,4 @@ function parseObject(body) {
     raw = raw.replace(/([^"]|^)(\b\w+)\s*: /g, `$1"$2":`);
     return JSON.parse(raw);
 }
+exports.parseObject = parseObject;

@@ -9,9 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Challenge = exports.CryptoChallenge = exports.InvalidSecurityCheckpointCookieError = void 0;
-exports.parseChallengeHTML = parseChallengeHTML;
-exports.parseChallengeJSON = parseChallengeJSON;
+exports.parseChallengeJSON = exports.parseChallengeHTML = exports.Challenge = exports.CryptoChallenge = exports.InvalidSecurityCheckpointCookieError = void 0;
 const crypto_1 = require("crypto");
 /**
  * The value of the `sec_cpt` cookie is invalid.
@@ -148,6 +146,7 @@ function parseChallengeHTML(src) {
     }
     return new Challenge(duration, path, challenge);
 }
+exports.parseChallengeHTML = parseChallengeHTML;
 /**
  * Parses a security checkpoint challenge from the given raw JSON.
  * Returns `null` if the JSON is invalid.
@@ -163,3 +162,4 @@ function parseChallengeJSON(src) {
     }
     return new Challenge(raw.chlg_duration, raw.branding_url_content, new CryptoChallenge(raw.token, raw.timestamp, raw.nonce, raw.difficulty, raw.timeout, raw.count));
 }
+exports.parseChallengeJSON = parseChallengeJSON;

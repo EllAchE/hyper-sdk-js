@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isAkamaiCookieValid = isAkamaiCookieValid;
-exports.isAkamaiCookieInvalidated = isAkamaiCookieInvalidated;
+exports.isAkamaiCookieInvalidated = exports.isAkamaiCookieValid = void 0;
 /**
  * Determines if the provided `_abck` cookie value is valid, based on Akamai Bot Manager's client-side stop signal
  * mechanism using the given request count. If the result is true, the client is ADVISED to halt further
@@ -26,6 +25,7 @@ function isAkamaiCookieValid(cookie, requestCount) {
     }
     return requestThreshold != -1 && requestCount >= requestThreshold;
 }
+exports.isAkamaiCookieValid = isAkamaiCookieValid;
 /**
  * Determines if the current session requires more sensors to be sent.
  *
@@ -43,3 +43,4 @@ function isAkamaiCookieInvalidated(cookie) {
     // Note: NaN being returned from parseInt doesn't matter since NaN > -1 == false
     return parseInt(parts[3]) > -1;
 }
+exports.isAkamaiCookieInvalidated = isAkamaiCookieInvalidated;

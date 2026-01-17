@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BotIDHeaderInput = void 0;
-exports.generateBotIDHeader = generateBotIDHeader;
+exports.generateBotIDHeader = exports.BotIDHeaderInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * BotID header input.
@@ -42,3 +41,4 @@ function generateBotIDHeader(session, input) {
         return (0, api_client_1.sendPayloadRequest)(session, "https://kasada.hypersolutions.co/botid", input);
     });
 }
+exports.generateBotIDHeader = generateBotIDHeader;

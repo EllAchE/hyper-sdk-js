@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InterstitialInput = void 0;
-exports.parseInterstitialDeviceCheckUrl = parseInterstitialDeviceCheckUrl;
-exports.generateInterstitialPayload = generateInterstitialPayload;
+exports.generateInterstitialPayload = exports.InterstitialInput = exports.parseInterstitialDeviceCheckUrl = void 0;
 const util_1 = require("./util");
 const api_client_1 = require("../shared/api-client");
 /**
@@ -27,6 +25,7 @@ function parseInterstitialDeviceCheckUrl(body, cookie, referer) {
     };
     return "https://geo.captcha-delivery.com/interstitial/?" + new URLSearchParams(params).toString();
 }
+exports.parseInterstitialDeviceCheckUrl = parseInterstitialDeviceCheckUrl;
 /**
  * Interstitial API input.
  */
@@ -57,3 +56,4 @@ exports.InterstitialInput = InterstitialInput;
 function generateInterstitialPayload(session, input) {
     return (0, api_client_1.sendPayloadWithHeadersRequest)(session, "https://datadome.hypersolutions.co/interstitial", input);
 }
+exports.generateInterstitialPayload = generateInterstitialPayload;

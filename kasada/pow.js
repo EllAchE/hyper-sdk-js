@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KasadaPowInput = void 0;
-exports.generateKasadaPow = generateKasadaPow;
+exports.generateKasadaPow = exports.KasadaPowInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * Input for Kasada Proof of Work calculation.
@@ -48,3 +47,4 @@ function generateKasadaPow(session, input) {
         return (0, api_client_1.sendPayloadRequest)(session, "https://kasada.hypersolutions.co/cd", input);
     });
 }
+exports.generateKasadaPow = generateKasadaPow;

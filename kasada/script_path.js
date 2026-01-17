@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseKasadaPath = parseKasadaPath;
+exports.parseKasadaPath = void 0;
 /**
  * Parses the Kasada ips.js path from the given HTML source code.
  * Returns `null` if the path can't be found.
@@ -15,3 +15,4 @@ function parseKasadaPath(src) {
     }
     return null;
 }
+exports.parseKasadaPath = parseKasadaPath;

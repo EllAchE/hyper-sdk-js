@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SliderInput = exports.SliderParseResult = void 0;
-exports.parseSliderDeviceCheckUrl = parseSliderDeviceCheckUrl;
-exports.generateSliderPayload = generateSliderPayload;
+exports.generateSliderPayload = exports.SliderInput = exports.parseSliderDeviceCheckUrl = exports.SliderParseResult = void 0;
 const util_1 = require("./util");
 const api_client_1 = require("../shared/api-client");
 /**
@@ -41,6 +39,7 @@ function parseSliderDeviceCheckUrl(body, cookie, referer) {
     };
     return new SliderParseResult(false, "https://geo.captcha-delivery.com/captcha/?" + new URLSearchParams(params).toString());
 }
+exports.parseSliderDeviceCheckUrl = parseSliderDeviceCheckUrl;
 /**
  * Slider API input.
  */
@@ -81,3 +80,4 @@ exports.SliderInput = SliderInput;
 function generateSliderPayload(session, input) {
     return (0, api_client_1.sendPayloadWithHeadersRequest)(session, "https://datadome.hypersolutions.co/slider", input);
 }
+exports.generateSliderPayload = generateSliderPayload;

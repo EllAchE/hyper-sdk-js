@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SensorInput = void 0;
-exports.generateSensorData = generateSensorData;
+exports.generateSensorData = exports.SensorInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * Sensor data input.
@@ -66,3 +65,4 @@ function generateSensorData(session, input) {
         };
     });
 }
+exports.generateSensorData = generateSensorData;

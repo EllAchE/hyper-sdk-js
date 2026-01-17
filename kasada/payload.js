@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.KasadaPayloadInput = void 0;
-exports.generateKasadaPayload = generateKasadaPayload;
+exports.generateKasadaPayload = exports.KasadaPayloadInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * Kasada payload input.
@@ -44,3 +43,4 @@ function generateKasadaPayload(session, input) {
         return (0, api_client_1.sendKasadaPayloadRequest)(session, "https://kasada.hypersolutions.co/payload", input);
     });
 }
+exports.generateKasadaPayload = generateKasadaPayload;

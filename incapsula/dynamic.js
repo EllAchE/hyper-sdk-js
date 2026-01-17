@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseDynamicReeseScript = parseDynamicReeseScript;
+exports.parseDynamicReeseScript = void 0;
 const reeseScriptRegex = new RegExp(`src\\s*=\\s*"((/[^/]+/\\d+)(?:\\?.*)?)"`, 'i');
 /**
  * Parses the dynamic Reese script paths from the given HTML content.
@@ -36,3 +36,4 @@ function parseDynamicReeseScript(html, urlStr) {
         scriptPath: scriptPath
     };
 }
+exports.parseDynamicReeseScript = parseDynamicReeseScript;

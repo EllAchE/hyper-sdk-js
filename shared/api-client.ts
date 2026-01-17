@@ -2,11 +2,9 @@ import { Agent, ProxyAgent, request } from 'undici';
 import { promisify } from "util";
 import * as zlib from "zlib";
 import { CompressionType, generateSignature, Session } from "../index";
-import pako from 'pako';
 
 // Compression utilities
 const gzip = promisify(zlib.gzip);
-// const gunzip = promisify(zlib.gunzip);
 const brotliDecompress = promisify(zlib.brotliDecompress);
 
 /**
@@ -37,19 +35,6 @@ async function compressPayload(payload: Buffer, compression: CompressionType): P
     }
 }
 
-/**
- * Decompresses response based on content-encoding header
- */
-async function decompressResponse(responseBuffer: Buffer, contentEncoding?: string): Promise<Buffer> {
-    switch (contentEncoding) {
-        case 'gzip':
-            return Buffer.from(pako.ungzip(responseBuffer))
-        case 'br':
-            return await brotliDecompress(responseBuffer);
-        default:
-            return responseBuffer;
-    }
-}
 
 /**
  * HTTP/2 client with full compression support using undici
@@ -114,7 +99,8 @@ export async function sendRequest<TInput = any, TResponse extends IBaseApiRespon
             headers,
             body: requestBody,
             headersTimeout: session.timeout,
-            bodyTimeout: session.timeout * 2
+            bodyTimeout: session.timeout * 2,
+            decompress: true,
         };
 
         // Add proxy support if configured
@@ -138,20 +124,10 @@ export async function sendRequest<TInput = any, TResponse extends IBaseApiRespon
         // Make HTTP request using undici
         const response = await request(url, requestOptions);
 
-        // Read response body
-        let responseBody = Buffer.from(await response.body.arrayBuffer());
-
-        // Decompress response if needed
-        const contentEncoding = response.headers['content-encoding'] as string;
-        if (contentEncoding) {
-            //@ts-ignore - Type mismatch between Buffer and ArrayBuffer
-            responseBody = await decompressResponse(responseBody, contentEncoding);
-        }
-
         // Parse JSON response
         let result: TResponse;
         try {
-            result = JSON.parse(responseBody.toString('utf8'));
+            result = JSON.parse(await response.body.text());
         } catch (err) {
             throw new InvalidApiResponseError(`Invalid JSON response: ${err}`);
         }

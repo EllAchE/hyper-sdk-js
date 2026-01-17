@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DecodeInput = void 0;
-exports.decodeTrustDecisionSessionKey = decodeTrustDecisionSessionKey;
+exports.decodeTrustDecisionSessionKey = exports.DecodeInput = void 0;
 const api_client_1 = require("../shared/api-client");
 /**
  * TrustDecision session key decode input.
@@ -40,3 +39,4 @@ function decodeTrustDecisionSessionKey(session, input) {
         return (0, api_client_1.sendPayloadRequest)(session, "https://trustdecision.hypersolutions.co/decode", input);
     });
 }
+exports.decodeTrustDecisionSessionKey = decodeTrustDecisionSessionKey;
